@@ -124,8 +124,7 @@ class CalculationsController < ApplicationController
       end
         i+=1
     end
-    @mode = @sorted_numbers.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
-            @sorted_numbers.max_by { |v| freq[v] }
+    @mode = temp_mode
 
     # ================================================================================
     # Your code goes above.
