@@ -22,7 +22,7 @@ class CalculationsController < ApplicationController
 
     @character_count_without_spaces = text_wo_tabs.length
 
-    @occurrences = @text.gsub(/[^a-z0-9\s]/i,"").split.count(@special_word)
+    @occurrences = @text.gsub(/[^a-z0-9\s]/i,"").count(@special_word)
 
     # ================================================================================
     # Your code goes above.
@@ -102,16 +102,16 @@ class CalculationsController < ApplicationController
     if @count.odd?
       @median = @sorted_numbers[@count/2]
     elsif @count.even?
-      lowmedian = @sorted_numbers[(@count/2)-1]
+      lowmedian = @sorted_numbers[(@count/2)-2]
       highmedian = @sorted_numbers[@count/2]
-      @median = (lowmedin + highmedian) / 2
+    @median = (lowmedian + highmedian) / 2
     end
 
     @sum = @numbers.sum
 
-    @mean = @numbers.sum / @numbers.count
+    @mean = @sum / @count
 
-    @variance =
+    @variance = @numbers.collect{|x| (@mean-x)**2}.inject(:+)/@count
 
     @standard_deviation = Math.sqrt(@variance)
 
@@ -124,7 +124,8 @@ class CalculationsController < ApplicationController
       end
         i+=1
     end
-    @mode = temp_mode
+    @mode = @sorted_numbers.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
+            @sorted_numbers.max_by { |v| freq[v] }
 
     # ================================================================================
     # Your code goes above.
